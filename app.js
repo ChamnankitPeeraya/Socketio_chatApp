@@ -7,6 +7,7 @@ const errorController = require('./controllers/error');
 const mongoConnect = require('./util/database').mongoConnect;
 const User = require('./models/user');
 
+const PORT = process.env.PORT || 5000 
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -33,5 +34,5 @@ app.use(shopRoutes);
 app.use(errorController.get404);
 
 mongoConnect(() => {
-  app.listen(5000);
+  app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
 });
