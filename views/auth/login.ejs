@@ -1,6 +1,104 @@
 <%- include('../includes/head.ejs') %>
-    <link rel="stylesheet" href="/css/forms.css">
-    <link rel="stylesheet" href="/css/auth.css">
+<style>
+            body {
+        background-color: #F8F4F4;
+        font-family: OFL Sorts Mill Goudy TT;
+    }
+    
+    .main {
+        background-color: #FFFFFF;
+        width: 400px;
+        height: 400px;
+        margin: 7em auto;
+        border-radius: 1.5em;
+        box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+    }
+
+    .sign {
+        padding-top: 40px;
+        color: #766558;
+        font-family: OFL Sorts Mill Goudy TT;
+        font-weight: bold;
+        font-size: 23px;
+    }
+
+    #email {
+    width: 76%;
+    color: rgb(38, 50, 56);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    background: rgba(136, 126, 126, 0.04);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    box-sizing: border-box;
+    border: 2px solid rgba(0, 0, 0, 0.02);
+    margin-bottom: 50px;
+    margin-left: 46px;
+    text-align: center;
+    margin-bottom: 27px;
+    font-family: OFL Sorts Mill Goudy TT;
+    }
+    
+    form.login-form {
+        padding-top: 40px;
+    }
+
+    #password {
+            width: 76%;
+    color: rgb(38, 50, 56);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    background: rgba(136, 126, 126, 0.04);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+    box-sizing: border-box;
+    border: 2px solid rgba(0, 0, 0, 0.02);
+    margin-bottom: 50px;
+    margin-left: 46px;
+    text-align: center;
+    margin-bottom: 27px;
+    font-family: OFL Sorts Mill Goudy TT;
+    }
+    
+    #submit {
+      cursor: pointer;
+        border-radius: 5em;
+        color: #fff;
+        background: linear-gradient(to right,  #766558, #cfb5a1);
+        border: 0;
+        padding-left: 40px;
+        padding-right: 40px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        font-family: OFL Sorts Mill Goudy TT;
+        margin-left: 35%;
+        font-size: 13px;
+        box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+    }
+
+    .centered {
+        text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
+        color: #a08ca3;
+        padding-top: 15px;
+    }
+
+    a {
+        text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
+        color: #413a34;
+        text-decoration: none
+    }
+
+    #email:focus, #password:focus {
+        border: 2px solid rgba(0, 0, 0, 0.18) !important;
+        
+    }
+</style>
 </head>
 
 <body>
@@ -10,20 +108,25 @@
         <% if (errorMessage) { %>
             <div class="user-message user-message--error"><%= errorMessage %></div>
         <% } %>
+
+        <div class="main">
+
+            <p class="sign" align="center">Sign in</p>
         <form class="login-form" action="/login" method="POST">
             <div class="form-control">
-                <label for="email">E-Mail</label>
-                <input type="email" name="email" id="email">
+                <input type="email" name="email" id="email" placeholder="Email">
             </div>
             <div class="form-control">
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password">
+                <input type="password" name="password" id="password" placeholder="Password">
             </div>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <button class="btn" type="submit">Login</button>
+            <button class="btn" type="submit" id = "submit">Login</button>
+
         </form>
         <div class="centered">
-            <a href="/reset">Reset Password</a>
+            <a href="/reset" >Forgot Password</a>
+        </div>
+
         </div>
     </main>
 <%- include('../includes/end.ejs') %>

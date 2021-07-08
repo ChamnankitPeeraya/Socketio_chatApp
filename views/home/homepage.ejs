@@ -1,0 +1,121 @@
+<%- include('../includes/head.ejs') %>
+<head>
+
+    <style>
+
+
+#guy-talk{
+	position: absolute;
+	width: 600px;
+	height: 476px;
+	left: 100px;
+	top: 123px;
+}
+
+.square{
+position: absolute;
+width: 650px;
+height: 476px;
+left: 700px;
+top: 123px;
+background: #766558;
+
+}
+
+#people-talk{
+position: absolute;
+width: 430px;
+height: 452px;
+left: 830px;
+top: 220px;
+box-shadow: 1px 1px ;
+border-radius: 52%;
+box-shadow: 10px 11px 35px 2px rgba(0, 0, 0, 0.14);
+}
+
+body{
+    background-color: #F8F4F4;
+}
+
+#title{
+    position: absolute;
+width: 377px;
+height: 113px;
+left: 470px;
+top: -50px;
+font-style: normal;
+font-weight: 500;
+font-size: 72px;
+line-height: 107px;
+text-align: center;
+font-family: OFL Sorts Mill Goudy TT;
+}
+
+p{position: absolute;
+width: 496px;
+height: 40px;
+left: 150px;
+top: 618px;
+
+font-family: OFL Sorts Mill Goudy TT;
+font-style: normal;
+font-weight: 500;
+font-size: 24px;
+line-height: 36px;
+text-align: center;
+
+color: #000000;}
+
+@media (max-width: 768px){
+    #guy-talk{
+
+        display: none ;
+}
+
+.square{
+    display: none ;
+
+}
+
+#people-talk{
+    display: none ;
+}
+
+p{
+
+    font-size: 4vw; 
+    top: 200px;
+    left: 10px;
+}
+
+#title{
+    font-size: 10vw; 
+    top: 100px;
+    left: 100px;
+
+
+}
+ </style>
+</head>
+<body>
+
+
+   <%- include('../includes/navigation.ejs') %>
+   <h1 id = "title">Connect</h1>
+    <main>
+        <% if (errorMessage) { %>
+            <div class="user-message user-message--error"><%= errorMessage %></div>
+        <% } %>
+    </main>
+
+    <img src="https://images.unsplash.com/photo-1530541930197-ff16ac917b0e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1050&q=80" id = "guy-talk">
+    <div class = "square">
+    </div>
+
+    <img src=" https://images.unsplash.com/photo-1540634759006-203f597e1a34?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=424&q=80  " id = "people-talk">
+   
+    <p>Befriend people who have similar interests</p>
+
+</body>
+
+<%- include('../includes/end.ejs') %>

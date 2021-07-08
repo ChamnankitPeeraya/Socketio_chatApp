@@ -1,23 +1,24 @@
 require('dotenv').config()
 
 const path = require('path');
+const http = require('http');
 
 const express = require('express');
+const socketio = require('socket.io');
+
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const csrf = require('csurf');
 const flash = require('connect-flash');
-const multer = require('multer')
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 3000
 
 const errorController = require('./controllers/error');
 const User = require('./models/user');
 
-const MONGODB_URI =
-  'mongodb+srv://mango:qUQ0H7MYUgC7Qo2n@cluster0.trxub.mongodb.net/myFirstDatabase';
+const MONGODB_URI = process.env.DATABASE;
 
 const app = express();
 const store = new MongoDBStore({
@@ -26,14 +27,19 @@ const store = new MongoDBStore({
 });
 const csrfProtection = csrf();
 
+const server = http.createServer(app);
+const io = socketio(server);
+const formatMessage = require('./util/messages');
+const {userJoin, getCurrentUser, userLeave, getRoomUsers} = require('./util/users');
 
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-const adminRoutes = require('./routes/admin');
-const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
+
+const chatRoutes = require('./routes/chat');
+
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -71,16 +77,68 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/admin', adminRoutes);
-app.use(shopRoutes);
+
 app.use(authRoutes);
+app.use(chatRoutes);
 
 app.use(errorController.get404);
+
+//run when client conncets
+io.on('connection', socket => {
+
+    
+
+    // specify room
+    socket.on('joinRoom', ({username, room}) => {
+
+        const user = userJoin(socket.id, username, room);
+
+        socket
+        .join(user.room)
+        ;
+
+        socket
+        .emit('message', formatMessage('Admin','Welcome to the chat'));
+        // broadcast when user connects
+    
+        socket
+        .broadcast
+        .to(user.room)
+        .emit('message',
+         formatMessage('Admin',`${user.username} joined the chat !`)
+         );
+
+         io.to(user.room).emit('roomUsers', {
+             room:user.room,
+             users: getRoomUsers(user.room)
+         });
+    });
+
+// listen for chatMessage
+
+socket.on('chatMessage', (msg) => {
+
+    const user = getCurrentUser(socket.id);
+
+  io.to(user.room).emit('message', formatMessage(user.username, msg));
+})
+
+        // run when client disconnceets
+    
+        socket.on('disconnect', () => {
+            const user = userLeave(socket.id);
+            if(user){
+            io.to(user.room).emit('message', formatMessage('Admin',`${user.username} left the chat`))
+            }
+        
+        })
+
+})
 
 mongoose
   .connect(MONGODB_URI)
   .then(result => {
-    app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
+    server.listen(PORT, () => console.log(`Listening on ${ PORT }`));
   })
   .catch(err => {
     console.log(err);
