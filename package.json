@@ -1,14 +1,14 @@
 {
-  "name": "nodejs-complete-guide",
+  "name": "connct",
   "version": "1.0.0",
-  "description": "Complete Node.js Guide",
+  "description": "let you connect with friends anonymously",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js",
+    "start": "app.js",
     "start-server": "node app.js"
   },
-  "author": "Maximilian Schwarzmüller",
+  "author": "peeraya",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^1.18.3"
